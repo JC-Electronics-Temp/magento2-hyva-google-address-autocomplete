@@ -1,0 +1,73 @@
+{
+    "name": "jc-electronics/magento2-hyva-google-address-autocomplete",
+    "description": "Enable autocompletion of addresses in the account section in Magento 2",
+    "type": "magento2-module",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.1",
+        "magento/framework": "^103.0"
+    },
+    "require-dev": {
+        "bitexpert/phpstan-magento": "^0.30.1",
+        "phpstan/extension-installer": "^1.3",
+        "phpunit/phpunit": "^9",
+        "youwe/coding-standard-magento2": "^2.0.0",
+        "youwe/testing-suite": "^2.17"
+    },
+    "repositories": {
+        "magento": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
+    "autoload": {
+        "files": [
+            "src/registration.php"
+        ],
+        "psr-4": {
+            "JcElectronics\\HyvaGoogleAddressAutocomplete\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JcElectronics\\HyvaGoogleAddressAutocomplete\\Test\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arjen Miedema",
+            "email": "a.miedema@jc-electronics.nl"
+        },
+        {
+            "name": "Rense Verhoeven",
+            "email": "r.verhoeven@youweagency.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "youwe/coding-standard-phpstorm": true,
+            "phpro/grumphp-shim": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "youwe/testing-suite": true,
+            "magento/composer-dependency-version-audit-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "archive": {
+        "exclude": [
+            "/.gitignore",
+            "/grumphp.yml",
+            "/pdepend.xml",
+            "/phpstan.neon",
+            "/phpunit.xml",
+            "/phpcs.xml",
+            "/phpmd.xml",
+            "/package.json",
+            "/.eslintrc.json",
+            "/.eslintignore",
+            "/tests"
+        ]
+    }
+}
