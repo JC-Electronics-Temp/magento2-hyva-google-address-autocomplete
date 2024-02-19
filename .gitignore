@@ -1,0 +1,4 @@
+# Do not commit project install files.
+/.idea
+/vendor
+/composer.lock
