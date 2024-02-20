@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="JcElectronics\HyvaGoogleAddressAutocomplete\ViewModel\AutoComplete">
+        <arguments>
+            <argument name="autocompleteInputs" xsi:type="array">
+                <item name="company" xsi:type="string" sortOrder="10">company</item>
+                <item name="street_1" xsi:type="string" sortOrder="20">street_1</item>
+            </argument>
+            <argument name="fieldMapping" xsi:type="array">
+                <item name="country" xsi:type="string" sortOrder="10">country</item>
+                <item name="postal_town" xsi:type="string" sortOrder="30">street_1</item>
+                <item name="subpremise" xsi:type="string" sortOrder="20">street_2</item>
+                <item name="route" xsi:type="string" sortOrder="50">street_1</item>
+                <item name="street_number" xsi:type="string" sortOrder="40">street_2</item>
+                <item name="locality" xsi:type="string" sortOrder="60">city</item>
+                <item name="postal_code" xsi:type="string" sortOrder="70">zip</item>
+                <item name="administrative_area_level_1" xsi:type="string" sortOrder="80">region</item>
+                <item name="company" xsi:type="string" sortOrder="90">company</item>
+                <item name="telephone" xsi:type="string" sortOrder="100">telephone</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,101 @@
+<?php
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use JcElectronics\HyvaGoogleAddressAutocomplete\ViewModel\AutoComplete;
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\Template;
+
+/**
+ * @var Template $block
+ * @var Escaper $escaper
+ * @var ViewModelRegistry $viewModels
+ */
+
+/** @var AutoComplete $autocompleteViewModel */
+$autocompleteViewModel = $viewModels->require(AutoComplete::class);
+?>
+<script>
+    function initGoogleMapsAutocomplete() {
+        return {
+            autoCompleteInputs: <?= /* @noEscape */ json_encode($autocompleteViewModel->getAutocompleteInputs()) ?>,
+            fieldMapping: <?= /* @noEscape */ json_encode($autocompleteViewModel->getFieldMapping()) ?>,
+
+            initialize() {
+                if (typeof window.google === 'undefined') {
+                    document.addEventListener('google:maps:init', () => this.dispatch());
+                } else {
+                    this.dispatch();
+                }
+            },
+            dispatch() {
+                this.autoCompleteInputs.forEach(identifier => {
+                    const el = document.getElementById(identifier);
+                    const autocomplete = new window.google.maps.places.Autocomplete(el);
+
+                    window.google.maps.event.addListener(
+                        autocomplete,
+                        'place_changed',
+                        () => this.handleResponse(autocomplete.getPlace())
+                    )
+                })
+            },
+            handleResponse(result) {
+                if (!Array.isArray(result.address_components)) {
+                    console.error('Google Places API Response doesn\'t contain valid address components');
+                }
+
+                const addressComponents = result.address_components.reduce((carry, item) => {
+                    const key = item.types[0];
+
+                    if (this.fieldMapping[key]) {
+                        carry[key] = key === 'country' ? item.short_name : item.long_name;
+                    }
+
+                    return carry;
+                }, {});
+
+                addressComponents['telephone'] = result.international_phone_number || '';
+                addressComponents['company'] = result.business_status === 'OPERATIONAL'
+                    ? result.name
+                    : '';
+
+                this.updateAddress(addressComponents);
+            },
+            updateAddress(address) {
+                Object.keys(this.fieldMapping).forEach(key => {
+                    const fieldName = this.fieldMapping[key];
+                    const regionSelector = document.getElementById('region_id');
+
+                    if (regionSelector && fieldName === 'region') {
+                        const selectedOption = Array.from(
+                            regionSelector.options)
+                            .find(option => option.text === address[key]);
+
+                        if (selectedOption) {
+                            regionSelector.selectedIndex = selectedOption.index;
+                        }
+                    }
+
+                    const element = document.getElementById(fieldName);
+
+                    if (element.value === address[key]) {
+                        return;
+                    }
+
+                    element.value = address[key] || '';
+
+                    this.fields[fieldName] && this.validateField(this.fields[fieldName]);
+
+                    setTimeout(() => element.dispatchEvent(new Event('change')), 1);
+                });
+            }
+        }
+    }
+
+    function googleReady() {
+        document.dispatchEvent(new Event('google:maps:init'));
+    }
+</script>
+<script async defer src="<?= $escaper->escapeUrl($autocompleteViewModel->getGoogleMapsUrl()) ?>"></script>
