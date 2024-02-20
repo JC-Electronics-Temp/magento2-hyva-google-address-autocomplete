@@ -11,6 +11,6 @@ use Magento\Framework\Component\ComponentRegistrar;
 
 ComponentRegistrar::register(
     ComponentRegistrar::MODULE,
-    'JcElectronics_ChannableOrdersTaxCalculation',
+    'JcElectronics_HyvaGoogleAddressAutocomplete',
     __DIR__
 );
