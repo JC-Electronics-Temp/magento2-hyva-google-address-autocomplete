@@ -13,8 +13,11 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class Config
 {
-    private const XML_PATH_ENABLED = '',
-        XML_PATH_GOOGLE_API_KEY = '';
+    private const XML_PATH_ENABLED = 'google_address_autocomplete/general/enabled',
+        XML_PATH_GOOGLE_API_KEY = 'google_address_autocomplete/general/api_key';
+
+    private const GOOGLE_API_URL =
+        'https://maps.googleapis.com/maps/api/js?key=%s&loading=async&libraries=places&callback=googleReady';
 
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig
@@ -37,9 +40,6 @@ class Config
 
     public function getGoogleMapsUrl(): string
     {
-        return sprintf(
-            'https://maps.googleapis.com/maps/api/js?key=%s&libraries=places&callback=googleReady',
-            $this->getApiKey()
-        );
+        return sprintf(self::GOOGLE_API_URL, $this->getApiKey());
     }
 }

@@ -23,7 +23,7 @@ class AutoComplete implements ArgumentInterface
 
     public function getAutocompleteInputs(): array
     {
-        return $this->autocompleteInputs;
+        return array_values($this->autocompleteInputs);
     }
 
     public function getFieldMapping(): array
@@ -34,5 +34,15 @@ class AutoComplete implements ArgumentInterface
     public function getGoogleMapsUrl(): string
     {
         return $this->config->getGoogleMapsUrl();
+    }
+
+    public function getApiKey(): ?string
+    {
+        return $this->config->getApiKey();
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->config->isEnabled();
     }
 }

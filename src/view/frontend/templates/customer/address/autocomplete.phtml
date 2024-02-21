@@ -85,7 +85,6 @@ $autocompleteViewModel = $viewModels->require(AutoComplete::class);
                     }
 
                     element.value = address[key] || '';
-
                     this.fields[fieldName] && this.validateField(this.fields[fieldName]);
 
                     setTimeout(() => element.dispatchEvent(new Event('change')), 1);
@@ -98,4 +97,6 @@ $autocompleteViewModel = $viewModels->require(AutoComplete::class);
         document.dispatchEvent(new Event('google:maps:init'));
     }
 </script>
+<?php if ($autocompleteViewModel->isEnabled() && $autocompleteViewModel->getApiKey()): ?>
 <script async defer src="<?= $escaper->escapeUrl($autocompleteViewModel->getGoogleMapsUrl()) ?>"></script>
+<?php endif ?>
